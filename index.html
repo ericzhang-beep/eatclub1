@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer.io Campaign Launch Checklist</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #f5f5f3; color: #1a1a1a; min-height: 100vh; padding: 32px 16px 64px; }
+  .page { max-width: 720px; margin: 0 auto; }
+  .header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; gap: 16px; flex-wrap: wrap; }
+  .header-left h1 { font-size: 22px; font-weight: 700; color: #085041; margin-bottom: 4px; }
+  .header-left p { font-size: 13px; color: #6b6b6b; }
+  .reset-btn { font-size: 13px; padding: 7px 16px; border-radius: 8px; border: 1px solid #d0d0d0; background: #fff; color: #555; cursor: pointer; white-space: nowrap; }
+  .reset-btn:hover { background: #f0f0ee; }
+  .progress-wrap { margin-bottom: 24px; background: #fff; border: 1px solid #e5e5e3; border-radius: 12px; padding: 16px 20px; }
+  .progress-meta { display: flex; justify-content: space-between; font-size: 12px; color: #6b6b6b; margin-bottom: 8px; }
+  .progress-meta strong { color: #1a1a1a; }
+  .progress-track { height: 8px; background: #eeeeec; border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; background: #1D9E75; border-radius: 99px; transition: width 0.35s ease; }
+  .section { background: #fff; border: 1px solid #e5e5e3; border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+  .section-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; cursor: pointer; user-select: none; }
+  .section-header:hover { background: #fafaf8; }
+  .section-title-row { display: flex; align-items: center; gap: 10px; }
+  .section-num { font-size: 11px; font-weight: 600; color: #0F6E56; background: #e6f5f0; padding: 2px 8px; border-radius: 99px; }
+  .section-title { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+  .section-right { display: flex; align-items: center; gap: 8px; }
+  .section-count { font-size: 11px; color: #888; }
+  .chevron { font-size: 11px; color: #aaa; transition: transform 0.2s; display: inline-block; }
+  .chevron.open { transform: rotate(180deg); }
+  .section-body { border-top: 1px solid #f0f0ee; }
+  .section-body.hidden { display: none; }
+  .subsection-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #888; padding: 10px 18px 4px; }
+  .info-row { padding: 4px 18px 8px; }
+  .info-text { font-size: 12px; color: #6b6b6b; font-style: italic; line-height: 1.5; background: #fafaf8; border-left: 3px solid #5DCAA5; padding: 8px 12px; border-radius: 0 6px 6px 0; }
+  .check-item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 18px; }
+  .check-item:hover { background: #fafaf8; }
+  .check-item.sub { padding-left: 40px; }
+  .check-item input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; cursor: pointer; accent-color: #1D9E75; width: 15px; height: 15px; }
+  .check-content { flex: 1; min-width: 0; }
+  .check-label { font-size: 13px; color: #1a1a1a; line-height: 1.5; cursor: pointer; display: block; }
+  .check-label.done { color: #aaa; text-decoration: line-through; }
+  .check-note { font-size: 11.5px; color: #888; margin-top: 3px; display: block; line-height: 1.5; font-style: italic; }
+  .critical-tag { font-size: 10px; font-weight: 600; background: #FAECE7; color: #993C1D; padding: 1px 6px; border-radius: 99px; margin-left: 6px; vertical-align: middle; white-space: nowrap; }
+  /* Approvals block */
+  .approvals-block { margin: 4px 18px 10px 40px; background: #f7f9f8; border: 1px solid #e0ece8; border-radius: 8px; padding: 10px 14px; }
+  .approvals-block .field { display: flex; align-items: baseline; gap: 8px; padding: 4px 0; border-bottom: 1px dashed #e0ece8; }
+  .approvals-block .field:last-child { border-bottom: none; }
+  .approvals-block .field-label { font-size: 11.5px; font-weight: 600; color: #0F6E56; min-width: 68px; flex-shrink: 0; }
+  .approvals-block .field-value { font-size: 11.5px; color: #aaa; font-style: italic; }
+  .complete-banner { display: none; text-align: center; padding: 20px; background: #E1F5EE; border-radius: 12px; border: 1px solid #5DCAA5; margin-top: 16px; }
+  .complete-banner p { font-size: 15px; font-weight: 600; color: #085041; margin-bottom: 4px; }
+  .complete-banner span { font-size: 13px; color: #0F6E56; }
+  @media (max-width: 500px) { .header-left h1 { font-size: 18px; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="header-left">
+      <h1>Campaign launch checklist</h1>
+      <p>Customer.io — work through every section before launching</p>
+    </div>
+    <button class="reset-btn" onclick="resetAll()">↺ Start new campaign</button>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span>Overall progress</span>
+      <span id="progress-label"><strong>0</strong> / 0 complete</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+  </div>
+  <div id="sections"></div>
+  <div class="complete-banner" id="complete-banner">
+    <p>✓ All items complete</p>
+    <span>Ready to launch — good luck with the campaign!</span>
+  </div>
+</div>
+
+<script>
+const sections = [
+  { title: "Campaign Basics", items: [
+    { label: "Use AI where applicable, to initially help create the campaign, experiment arms and segments, etc." },
+    { label: "Correct campaign vs broadcast type selected", note: "Broadcast only for true 1-offs that don't require experimentation. Campaigns for all else." }
+  ]},
+  { title: "Trigger & Targeting", items: [
+    { label: "Regionalized vs Country vs Global targeting", note: "Verify exact scope of location of segments.", critical: true },
+    { label: "Trigger type is correct for the use case", note: "Attribute/segment, event, date, webhook, etc.", critical: true },
+    { label: "Segment definition reviewed", note: "Check whether it's data-driven or manual, and confirm the criteria are current.", critical: true },
+    { label: "AND / OR logic verified — not accidentally inverted", note: "Common source of incorrect targeting.", critical: true },
+    { label: "Master segment created where applicable", note: "Instead of OR-ing multiple segments together, create one master cohort (e.g. all of AU or all of UK) to keep targeting clean and reusable." },
+    { label: "Audience size estimate reviewed before launch", note: "Check the segment count or preview audience to confirm the expected number." },
+    { label: "Frequency setting updated", note: "Go to Settings → Frequency. Change from 'Every re-match' to 'One time' or 'At fixed intervals, no sooner than X days' (e.g. 6 days for a weekly newsletter)." }
+  ]},
+  { title: "Workflow & Content", subsections: [
+    { label: "Workflow", info: "If multiple regions or countries are involved, build scalably into global/fewer campaigns. Aim for as few campaigns as possible with regional splitouts built into the workflow.", items: [
+      { label: "Random cohort branch added with correct percentages and arms set up" },
+      { label: "New static segments created and tagged for experiment tracking", note: "For each flow, people should be added to the appropriate static segment. Name segments appropriately with treatment and holdout respectively.", sub: true },
+      { label: "Delays and wait blocks are correct", note: "Double-check units — hours vs days vs weeks." },
+      { label: "All message branches reviewed end-to-end", note: "Walk through every path, including edge cases." },
+      { label: "Time window blocks set if time-of-day delivery matters", note: "e.g. send only on weekday mornings." },
+      { label: "Conditional (true/false) splits use correct attribute and event logic", note: "Verify both branches lead to the right outcome." }
+    ]},
+    { label: "Messages", items: [
+      { label: "From name and from email address correct for each message", note: "Especially if using multiple sender addresses." },
+      { label: "Subject lines and preview text reviewed", note: "Check for placeholder text or draft copy." },
+      { label: "Links and CTAs tested", note: "Correct URLs and UTM params set." },
+      { label: "Non-transactional campaigns are counting towards the message limit", note: "Message limit is now enabled — transactional and moment-based campaigns are exempt, all others must count towards it." }
+    ]}
+  ]},
+  { title: "Goals & Exit Criteria", items: [
+    { label: "Campaign goal defined", note: "Event, attribute, or no goal — goals let you track conversions and effectiveness." },
+    { label: "Goal conversion window is appropriate", note: "e.g. '1 week after any delivery'." },
+    { label: "Exit criteria configured correctly", note: "When should people leave the campaign early?" }
+  ]},
+  { title: "Testing and Approvals Before Launch", items: [
+    { label: "Test send completed for each message type", note: "Email, SMS, push, etc." },
+    { label: "Send out to Marketing Approvals chat", approvals: true }
+  ]},
+  { title: "Launch Settings", items: [
+    { label: "Start time and schedule confirmed in correct timezone", note: "The schedule uses the timezone of the logged-in team member, not the audience." },
+    { label: "Stop time set to 4 hours after the start time", note: "Required for all experiment campaigns. This will give us enough time in the pipeline to run around 5 million users by the time it finishes, which is the theoretical limit." },
+    { label: "Use AI to review the campaign before launch — have it check for any issues, flags, etc.", note: "Double-check that everything is set up correctly." }
+  ]},
+  { title: "Post-Send", items: [
+    { label: "Confirmed with AI that the send has gone out appropriately" },
+    { label: "Check static segments to confirm they are filling up appropriately according to the experiment percentages" }
+  ]}
+];
+
+const allItems = [];
+sections.forEach((sec, si) => {
+  if (sec.items) sec.items.forEach((_, ii) => allItems.push({ si, ssi: null, ii, id: `${si}-${ii}` }));
+  if (sec.subsections) sec.subsections.forEach((ss, ssi) => ss.items.forEach((_, ii) => allItems.push({ si, ssi, ii, id: `${si}-${ssi}-${ii}` })));
+});
+const state = {};
+allItems.forEach(a => { state[a.id] = false; });
+
+const approvalsBlock = `
+  <div class="approvals-block">
+    <div class="field"><span class="field-label">Email:</span><span class="field-value">[Context / description / topic]</span></div>
+    <div class="field"><span class="field-label">Send:</span><span class="field-value">[Time / date]</span></div>
+    <div class="field"><span class="field-label">Audience:</span><span class="field-value">[Who's receiving it + segment size]</span></div>
+    <div class="field"><span class="field-label">Content:</span><span class="field-value">[TEST email send in inboxes or link to doc]</span></div>
+  </div>`;
+
+function renderItem(item, id) {
+  const extra = item.approvals ? approvalsBlock : '';
+  return `<div class="check-item${item.sub ? ' sub' : ''}">
+    <input type="checkbox" id="cb-${id}" onchange="toggle('${id}')">
+    <div class="check-content">
+      <label class="check-label" id="lbl-${id}" for="cb-${id}">${item.label}${item.critical ? '<span class="critical-tag">critical</span>' : ''}</label>
+      ${item.note ? `<span class="check-note">${item.note}</span>` : ''}
+    </div>
+  </div>${extra}`;
+}
+
+const container = document.getElementById('sections');
+sections.forEach((sec, si) => {
+  const el = document.createElement('div');
+  el.className = 'section';
+  let body = '';
+  if (sec.items) sec.items.forEach((item, ii) => { body += renderItem(item, `${si}-${ii}`); });
+  if (sec.subsections) sec.subsections.forEach((ss, ssi) => {
+    body += `<div class="subsection-label">${ss.label}</div>`;
+    if (ss.info) body += `<div class="info-row"><div class="info-text">${ss.info}</div></div>`;
+    ss.items.forEach((item, ii) => { body += renderItem(item, `${si}-${ssi}-${ii}`); });
+  });
+  const total = allItems.filter(a => a.si === si).length;
+  el.innerHTML = `
+    <div class="section-header" onclick="toggleSection(${si})">
+      <div class="section-title-row">
+        <span class="section-num">${si + 1}</span>
+        <span class="section-title">${sec.title}</span>
+      </div>
+      <div class="section-right">
+        <span class="section-count" id="sc-${si}">0 / ${total}</span>
+        <span class="chevron open" id="chev-${si}">▼</span>
+      </div>
+    </div>
+    <div class="section-body" id="body-${si}">${body}</div>`;
+  container.appendChild(el);
+});
+
+function toggle(id) {
+  const cb = document.getElementById(`cb-${id}`);
+  state[id] = cb.checked;
+  document.getElementById(`lbl-${id}`).className = cb.checked ? 'check-label done' : 'check-label';
+  updateProgress();
+}
+function toggleSection(si) {
+  document.getElementById(`body-${si}`).classList.toggle('hidden');
+  document.getElementById(`chev-${si}`).classList.toggle('open');
+}
+function updateProgress() {
+  const total = allItems.length, done = Object.values(state).filter(Boolean).length;
+  document.getElementById('progress-label').innerHTML = `<strong>${done}</strong> / ${total} complete`;
+  document.getElementById('progress-fill').style.width = `${Math.round(done / total * 100)}%`;
+  sections.forEach((_, si) => {
+    const sd = allItems.filter(a => a.si === si && state[a.id]).length;
+    const st = allItems.filter(a => a.si === si).length;
+    document.getElementById(`sc-${si}`).textContent = `${sd} / ${st}`;
+  });
+  document.getElementById('complete-banner').style.display = done === total ? 'block' : 'none';
+}
+function resetAll() {
+  if (!confirm('Reset all checkboxes for a new campaign?')) return;
+  allItems.forEach(a => {
+    state[a.id] = false;
+    const cb = document.getElementById(`cb-${a.id}`);
+    const lbl = document.getElementById(`lbl-${a.id}`);
+    if (cb) cb.checked = false;
+    if (lbl) lbl.className = 'check-label';
+  });
+  sections.forEach((_, si) => {
+    document.getElementById(`body-${si}`).classList.remove('hidden');
+    document.getElementById(`chev-${si}`).classList.add('open');
+  });
+  updateProgress();
+}
+updateProgress();
+</script>
+</body>
+</html>
