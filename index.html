@@ -42,7 +42,11 @@
   .check-label.done { color: #aaa; text-decoration: line-through; }
   .check-note { font-size: 11.5px; color: #888; margin-top: 3px; display: block; line-height: 1.5; font-style: italic; }
   .critical-tag { font-size: 10px; font-weight: 600; background: #FAECE7; color: #993C1D; padding: 1px 6px; border-radius: 99px; margin-left: 6px; vertical-align: middle; white-space: nowrap; }
-  /* Approvals block */
+  .split-table { margin: 6px 0 2px; display: flex; gap: 8px; }
+  .split-pill { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 99px; }
+  .split-pill.global { background: #e6f5f0; color: #0F6E56; }
+  .split-pill.regional { background: #EEF0FB; color: #3D4DA8; }
+  .split-label { font-size: 10.5px; color: #888; margin-top: 3px; display: block; font-style: italic; }
   .approvals-block { margin: 4px 18px 10px 40px; background: #f7f9f8; border: 1px solid #e0ece8; border-radius: 8px; padding: 10px 14px; }
   .approvals-block .field { display: flex; align-items: baseline; gap: 8px; padding: 4px 0; border-bottom: 1px dashed #e0ece8; }
   .approvals-block .field:last-child { border-bottom: none; }
@@ -94,7 +98,7 @@ const sections = [
   ]},
   { title: "Workflow & Content", subsections: [
     { label: "Workflow", info: "If multiple regions or countries are involved, build scalably into global/fewer campaigns. Aim for as few campaigns as possible with regional splitouts built into the workflow.", items: [
-      { label: "Random cohort branch added with correct percentages and arms set up" },
+      { label: "Random cohort branch added with correct percentages and arms set up", splits: true },
       { label: "New static segments created and tagged for experiment tracking", note: "For each flow, people should be added to the appropriate static segment. Name segments appropriately with treatment and holdout respectively.", sub: true },
       { label: "Delays and wait blocks are correct", note: "Double-check units — hours vs days vs weeks." },
       { label: "All message branches reviewed end-to-end", note: "Walk through every path, including edge cases." },
@@ -136,7 +140,17 @@ sections.forEach((sec, si) => {
 const state = {};
 allItems.forEach(a => { state[a.id] = false; });
 
-const approvalsBlock = `
+const splitsHtml = `
+  <div class="split-table">
+    <div>
+      <span class="split-pill global">Global: 10% holdout · 90% treatment</span>
+    </div>
+    <div>
+      <span class="split-pill regional">City / Region: 50% holdout · 50% treatment</span>
+    </div>
+  </div>`;
+
+const approvalsHtml = `
   <div class="approvals-block">
     <div class="field"><span class="field-label">Email:</span><span class="field-value">[Context / description / topic]</span></div>
     <div class="field"><span class="field-label">Send:</span><span class="field-value">[Time / date]</span></div>
@@ -145,14 +159,17 @@ const approvalsBlock = `
   </div>`;
 
 function renderItem(item, id) {
-  const extra = item.approvals ? approvalsBlock : '';
+  let extras = '';
+  if (item.splits) extras += splitsHtml;
+  if (item.approvals) extras += approvalsHtml;
   return `<div class="check-item${item.sub ? ' sub' : ''}">
     <input type="checkbox" id="cb-${id}" onchange="toggle('${id}')">
     <div class="check-content">
       <label class="check-label" id="lbl-${id}" for="cb-${id}">${item.label}${item.critical ? '<span class="critical-tag">critical</span>' : ''}</label>
       ${item.note ? `<span class="check-note">${item.note}</span>` : ''}
+      ${extras}
     </div>
-  </div>${extra}`;
+  </div>`;
 }
 
 const container = document.getElementById('sections');
